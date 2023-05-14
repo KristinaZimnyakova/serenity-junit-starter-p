@@ -24,6 +24,7 @@ public class ProfileTest {
     WebDriver driver;
     @Steps
     LoginSteps loginSteps;
+    @Steps
     ProfileSteps profileSteps;
 
     LoginPage loginPage;

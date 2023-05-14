@@ -11,4 +11,8 @@ public class DataGenerator {
         String generatedLine = "Qw"+ generatedString + generatedFigures + "@";
         return generatedLine;
     }
+
+    public static long randomBetween(long minValue, long maxValue) {
+        return minValue + Math.round(Math.random() * (maxValue - minValue));
+    }
 }

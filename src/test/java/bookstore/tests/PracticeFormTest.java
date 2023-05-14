@@ -1,11 +1,12 @@
 package bookstore.tests;
 
 import bookstore.models.User;
-import bookstore.pages.BookStorePage;
+import bookstore.models.UserForPracticeForm;
 import bookstore.pages.LoginPage;
+import bookstore.pages.PracticeFormPage;
 import bookstore.pages.ProfilePage;
-import bookstore.steps.BookStoreSteps;
 import bookstore.steps.LoginSteps;
+import bookstore.steps.PracticeFormSteps;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.thucydides.core.annotations.Managed;
 import net.thucydides.core.annotations.Steps;
@@ -16,27 +17,32 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SerenityJUnit5Extension.class)
-public class BookStoreTest {
+public class PracticeFormTest {
 
     @Managed
     WebDriver driver;
     @Steps
     LoginSteps loginSteps;
     @Steps
-    BookStoreSteps bookStoreSteps;
+    PracticeFormSteps practiceFormStep;
 
     LoginPage loginPage;
-    ProfilePage profilePage;
-    BookStorePage bookStorePage;
+    PracticeFormPage practiceFormPage;
+
+    static UserForPracticeForm userForPracticeForm;
     static User user;
 
-    String bookInput;
+    public static String userDir = System.getProperty("user.dir");
+    String picturePath = String.format("%s\\photo.jpg", userDir);
 
     @BeforeAll
     public static void createUser(){
+        userForPracticeForm = UserForPracticeForm.builder().firstName("Ivan").lastName("Petrov").userEmail("123@mail.ru")
+                .userNumber("1234567890").currentAddress("Samara")
+                .build();
         user = User.builder().login("11kris").password("Kristin@123")
                 .build();
     }
@@ -47,23 +53,17 @@ public class BookStoreTest {
         loginSteps.enter_login_and_password(user);
         loginPage.waitForCondition().withTimeoutOf(10).second()
                 .until(i -> loginPage.getDriver().getCurrentUrl().contains("profile"));
-        profilePage.goToStore();
+        practiceFormPage.open();
     }
 
     @Test
-    @Title("Поиск книги и переход на страницу с информацией о книге")
-    public void search_and_choose_book(){
-        //bookStoreSteps.serch_certain_book();
-        //bookStoreSteps.goToBookInformation();
-
-        bookInput = bookStorePage.searchBook();
-        String bookTitle = bookStorePage.getBook().getText();
-        assertThat(bookInput).isEqualTo(bookTitle);
-        bookStorePage.chooseBook();
-        assertThat(bookStorePage.getDriver().getCurrentUrl()).contains("books?book=");
-        assertThat(bookInput).isEqualTo(bookStorePage.getTitleBook().getText());
-        bookStorePage.getBackToStoreButton().shouldBeEnabled();
-        bookStorePage.getAddToYourCollectionButton().shouldBeEnabled();
+    @Title("Заполнение всех полей")
+    public void check_filling() {
+        practiceFormStep.filling_page(userForPracticeForm, picturePath);
+        //practiceFormStep.click_submit(); //кнопки submit нет
     }
+
+
+
 
 }
