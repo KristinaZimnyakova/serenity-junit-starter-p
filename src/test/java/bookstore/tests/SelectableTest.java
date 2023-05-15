@@ -33,10 +33,8 @@ public class SelectableTest {
     public void selectElements(){
         selectPageSteps.selectAllElements();
         List<String> classElementsList = selectPageSteps.getClassElements();
-        for(String classElement : classElementsList) {
-            Assertions.assertEquals("mt-2 list-group-item active list-group-item-action", classElement);
-        }
-
+        classElementsList.stream().forEach(classElement ->
+                Assertions.assertEquals("mt-2 list-group-item active list-group-item-action", classElement));
     }
 
 }

@@ -17,7 +17,7 @@ public class SelectablePageSteps {
             selectableElement.click();
         }
     }
-    @Step("и получить класс элементов")
+    @Step("и убедиться, что элементы выделены")
     public List<String> getClassElements(){
         List<String> classElementsList = new ArrayList<>();
         for(WebElementFacade selectableElement : selectablePage.getSelectableElementsGroup()){
