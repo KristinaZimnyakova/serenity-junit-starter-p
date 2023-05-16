@@ -33,7 +33,7 @@ public class ProfileTest {
 
     @BeforeAll
     public static void createUser(){
-        user = User.builder().login("11kris").password("Kristin@123")
+        user = User.builder().userName("11kris").password("Kristin@123")
                 .build();
     }
 
@@ -49,20 +49,17 @@ public class ProfileTest {
     @Test
     @Title("Проверка, что User Name в профиле соответсвует логину пользователя")
     public void check_login(){
-        assertEquals(profilePage.getUserNameValue(), user.getLogin());
+        assertEquals(profilePage.getUserNameValue(), user.getUserName());
     }
 
     @Test
     @Title("Проверка наличия кнопок в профиле пользователя")
     public void check_button(){
-        //profileSteps.check_button_profile();
-        //java.lang.NullPointerException: Cannot invoke "bookstore.steps.ProfileSteps.check_button_profile()" because "this.profileSteps" is null
         profilePage.waitForCondition().withTimeoutOf(10).second()
                 .until(i -> profilePage.getButtonGoToStore().shouldBePresent());
         profilePage.getButtonDeleteAccount().shouldBeEnabled();
         profilePage.getButtonGoToStore().shouldBeEnabled();
         profilePage.getButtonDeleteAllBooks().shouldBeEnabled();
-
     }
 
 

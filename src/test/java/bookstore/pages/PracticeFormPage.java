@@ -5,7 +5,12 @@ import lombok.Getter;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.DefaultUrl;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
+import java.time.Duration;
 
 @DefaultUrl("https://HOST/automation-practice-form")
 @Getter
@@ -117,6 +122,8 @@ public class PracticeFormPage extends PageObject {
     public void addFile(String picturePath){
         uploadPictureInput.sendKeys(picturePath);
     }
+
+
 
 
 }

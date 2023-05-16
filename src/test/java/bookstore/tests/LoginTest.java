@@ -6,14 +6,12 @@ import bookstore.pages.ProfilePage;
 import bookstore.steps.LoginSteps;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.thucydides.core.annotations.Managed;
-import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.annotations.Title;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 @ExtendWith(SerenityJUnit5Extension.class)
@@ -30,7 +28,7 @@ public class LoginTest {
 
     @BeforeAll
     public static void createUser(){
-        user = User.builder().login("upaul").password("Qwerty123!")
+        user = User.builder().userName("upaul").password("Qwerty123!")
                 .build();
     }
 
@@ -49,7 +47,7 @@ public class LoginTest {
     @Test
     @Title("Тест НЕ успешной авторизации")
     public void fail_login(){
-        User failUser = User.builder().login("upaul").password("Qwerty123")
+        User failUser = User.builder().userName("upaul").password("Qwerty123")
                 .build();
         loginSteps.enter_login_and_password(failUser);
         loginSteps.check_fail_login();

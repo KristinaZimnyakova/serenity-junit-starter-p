@@ -26,8 +26,15 @@ public class ProfilePage extends PageObject {
     @FindBy(xpath = "//div[@class='text-right button di']/button[text()='Delete All Books']")
     WebElementFacade buttonDeleteAllBooks;
 
+    @FindBy(xpath = "//span/a")
+    WebElementFacade bookTitle;
+
     public String getUserNameValue(){
         return userNameValue.getText();
+    }
+
+    public String getBook(){
+        return bookTitle.getAttribute("href");
     }
 
     public void goToStore(){

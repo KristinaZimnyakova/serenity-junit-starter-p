@@ -12,7 +12,7 @@ public class LoginSteps {
 
     @Step("Могу ввести учетные данные пользователя")
     public void enter_login_and_password(User user){
-        loginPage.enterLogin(user.getLogin());
+        loginPage.enterLogin(user.getUserName());
         loginPage.enterPaasword(user.getPassword());
         loginPage.clickLogin();
     }

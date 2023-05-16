@@ -37,7 +37,7 @@ public class BookStoreTest {
 
     @BeforeAll
     public static void createUser(){
-        user = User.builder().login("11kris").password("Kristin@123")
+        user = User.builder().userName("11kris").password("Kristin@123")
                 .build();
     }
 
