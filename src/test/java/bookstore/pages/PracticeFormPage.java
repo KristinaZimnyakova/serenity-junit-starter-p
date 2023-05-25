@@ -14,6 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
@@ -159,7 +160,7 @@ public class PracticeFormPage extends PageObject {
     public void javaScriptClick(WebElement element, WebDriver driver) throws InterruptedException {
         JavascriptExecutor executor = (JavascriptExecutor) getDriver();
         executor.executeScript("arguments[0].scrollIntoView(true);", element);
-        Thread.sleep(2000);
+        TimeUnit.SECONDS.sleep(30);
         //waitTimeout(2000);
         executor.executeScript("arguments[0].click();", element);
     }
