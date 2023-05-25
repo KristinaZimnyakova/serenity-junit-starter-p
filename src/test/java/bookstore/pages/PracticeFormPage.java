@@ -5,12 +5,17 @@ import lombok.Getter;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
 import net.thucydides.core.annotations.DefaultUrl;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+
+import static java.lang.Thread.sleep;
 
 @DefaultUrl("https://HOST/automation-practice-form")
 @Getter
@@ -82,13 +87,44 @@ public class PracticeFormPage extends PageObject {
     @FindBy(xpath = "//div[@id=\"react-select-4-option-0\"]")
     WebElementFacade selectCityOptions;
 
-    @FindBy(xpath = "td[text()='Student Name'] + td") //нерабочий
+    @FindBy(xpath = "//td[text()='Student Name']/following::td[1]")
     WebElementFacade studentNameText;
+
+    @FindBy(xpath = "//td[text()='Student Email']/following::td[1]")
+    WebElementFacade studentEmailText;
+
+    @FindBy(xpath = "//td[text()='Gender']/following::td[1]")
+    WebElementFacade studentGenderText;
+
+    @FindBy(xpath = "//td[text()='Mobile']/following::td[1]")
+    WebElementFacade studentMobileText;
+
+    @FindBy(xpath = "//td[text()='Date of Birth']/following::td[1]")
+    WebElementFacade studentDateOfBirthText;
+
+    @FindBy(xpath = "//td[text()='Subjects']/following::td[1]")
+    WebElementFacade studentSubjectsText;
+
+    @FindBy(xpath = "//td[text()='Hobbies']/following::td[1]")
+    WebElementFacade studentHobbiesText;
+
+    @FindBy(xpath = "//td[text()='Picture']/following::td[1]")
+    WebElementFacade studentPictureText;
+
+    @FindBy(xpath = "//td[text()='Address']/following::td[1]")
+    WebElementFacade studentAddressText;
+
+    @FindBy(xpath = "//td[text()='State and City']/following::td[1]")
+    WebElementFacade studentStateAndCityText;
 
     @FindBy(xpath = "//button[@id=\"closeLargeModal\"]")
     WebElementFacade closeButton;
 
-    public void fillingPage(UserForPracticeForm userForPracticeForm){
+    @FindBy(xpath = "//button[@id='submit']")
+    WebElementFacade submitButton;
+
+
+    public void fillingPage(UserForPracticeForm userForPracticeForm, String subject){
         firstNameInput.type(userForPracticeForm.getFirstName());
         lastNameInput.type(userForPracticeForm.getLastName());
         userEmailInput.type(userForPracticeForm.getUserEmail());
@@ -102,7 +138,7 @@ public class PracticeFormPage extends PageObject {
         yearSelectOption106.click();
         dateSelect.click();
 
-        subjectsInput.type("e");
+        subjectsInput.type(subject);
         subjectsAutoComplete.click();
 
         checkboxHobbies.click();
@@ -115,8 +151,17 @@ public class PracticeFormPage extends PageObject {
         selectCityOptions.click();
     }
 
+
     public void clickSubmit(){
-        find("//button[@id='submit']").click();
+        submitButton.click();
+    }
+
+    public void javaScriptClick(WebElement element, WebDriver driver) throws InterruptedException {
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].scrollIntoView(true);", element);
+        Thread.sleep(2000);
+        //waitTimeout(2000);
+        executor.executeScript("arguments[0].click();", element);
     }
 
     public void addFile(String picturePath){

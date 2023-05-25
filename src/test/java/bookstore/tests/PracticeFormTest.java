@@ -10,10 +10,14 @@ import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.thucydides.core.annotations.Managed;
 import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.annotations.Title;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
 import java.time.Duration;
@@ -35,6 +39,8 @@ public class PracticeFormTest {
 
     static UserForPracticeForm userForPracticeForm;
     static User user;
+    String subject = "English";
+    String pictureName = "photo.jpg";
 
     public static String userDir = System.getProperty("user.dir");
     String picturePath = String.format("%s\\photo.jpg", userDir);
@@ -50,18 +56,28 @@ public class PracticeFormTest {
 
     @BeforeEach
     public void openPageAndLogin(){
-        loginPage.open();
-        loginSteps.enter_login_and_password(user);
-        loginPage.waitForCondition().withTimeoutOf(10).second()
-                .until(i -> loginPage.getDriver().getCurrentUrl().contains("profile"));
         practiceFormPage.open();
     }
 
     @Test
-    @Title("Заполнение всех полей")
-    public void check_filling() {
-        practiceFormStep.filling_page(userForPracticeForm, picturePath);
-        //practiceFormStep.click_submit(); //кнопки submit нет - Нужно уменьшить масштаб
+    @Title("Тест формы регистрации студента с заполнением всех полей")
+    public void check_filling() throws InterruptedException {
+        practiceFormStep.filling_page(userForPracticeForm, picturePath, subject);
+        practiceFormPage.getSubmitButton().shouldBeEnabled();
+        practiceFormStep.click_submit(driver);
+        String studentName = userForPracticeForm.getFirstName() + " " + userForPracticeForm.getLastName();
+        Assertions.assertEquals(studentName, practiceFormPage.getStudentNameText().getText());
+        Assertions.assertEquals(userForPracticeForm.getUserEmail(), practiceFormPage.getStudentEmailText().getText());
+        Assertions.assertEquals(userForPracticeForm.getUserNumber(), practiceFormPage.getStudentMobileText().getText());
+        Assertions.assertEquals(subject, practiceFormPage.getStudentSubjectsText().getText());
+        Assertions.assertEquals(pictureName, practiceFormPage.getStudentPictureText().getText());
+        Assertions.assertEquals(userForPracticeForm.getCurrentAddress(), practiceFormPage.getStudentAddressText().getText());
+        Assertions.assertFalse(practiceFormPage.getStudentGenderText().getText().isEmpty());
+        Assertions.assertFalse(practiceFormPage.getStudentHobbiesText().getText().isEmpty());
+        Assertions.assertFalse(practiceFormPage.getStudentStateAndCityText().getText().isEmpty());
+        Assertions.assertFalse(practiceFormPage.getStudentDateOfBirthText().getText().isEmpty());
+        practiceFormPage.getCloseButton().shouldBeEnabled();
+        practiceFormPage.getCloseButton().click();
     }
 
 
